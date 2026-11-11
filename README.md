@@ -80,10 +80,20 @@ proyectoVisionComputadora/
 
 ## 3. Instalación
 
+Ejecuta los comandos desde la raíz del repositorio.
+
+**Windows (PowerShell):**
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+```
+
+**macOS / Linux:**
 ```bash
-cd proyectoVisionComputadora
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
 ```
 
 ## 4. Uso
@@ -159,4 +169,3 @@ python ejecutar_pipeline_completo.py --epocas 2 --umbral 0.80
   el entrenamiento.
 - `models/model.pt` corresponde a los pesos de la época con mejor `val_accuracy`
   (99.15%), no necesariamente la última época entrenada (ver `model_info.json`).
-
