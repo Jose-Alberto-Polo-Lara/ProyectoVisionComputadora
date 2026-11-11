@@ -1,0 +1,11 @@
+# Dependencias del proyecto completo: preparación de dataset, entrenamiento,
+# pruebas de clasificación y pipeline de inferencia.
+# Versiones verificadas en el entorno donde se entrenó y probó model.pt
+# (mismo intérprete Python 3.12 usado en "Image classification with CNN modelo vision.ipynb")
+
+torch==2.14.0
+torchvision==0.29.1
+Pillow==12.1.1
+numpy==2.4.2
+pandas==2.1.4
+tqdm==4.67.1

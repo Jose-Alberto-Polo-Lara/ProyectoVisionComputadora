@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf-8'?>
+<annotation><filename>late_blight_099.jpg</filename><size><width>750</width><height>1000</height><depth>3</depth></size><object><name>late_blight</name><bndbox><xmin>161</xmin><ymin>901</ymin><xmax>308</xmax><ymax>1000</ymax></bndbox></object><object><name>late_blight</name><bndbox><xmin>348</xmin><ymin>530</ymin><xmax>559</xmax><ymax>699</ymax></bndbox></object><object><name>late_blight</name><bndbox><xmin>47</xmin><ymin>265</ymin><xmax>439</xmax><ymax>725</ymax></bndbox></object></annotation>

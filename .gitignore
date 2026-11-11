@@ -1,0 +1,17 @@
+# === Entornos virtuales y dependencias de instalación ===
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.egg-info/
+pip-wheel-metadata/
+
+# === Artefactos generados en tiempo de ejecución (se regeneran con las rutinas) ===
+outputs/*
+!outputs/.gitkeep
+logs/*
+!logs/.gitkeep
+
+# === Sistema ===
+.DS_Store

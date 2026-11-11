@@ -1,0 +1,4 @@
+split,yolo_images,yolo_labels,yolo_boxes,coco_images,coco_boxes,voc_images,voc_xml,voc_boxes,consistent
+train,410,410,739,410,739,410,410,739,True
+val,118,118,217,118,217,118,118,217,True
+test,58,58,108,58,108,58,58,108,True

@@ -1,0 +1,47 @@
+{
+  "nombre_modelo": "clasificador_tizon_papa_resnet18",
+  "version": "1.0.0",
+  "fecha_documentacion": "2026-11-10",
+  "arquitectura": {
+    "base": "resnet18 (torchvision.models, pretrained=True en ImageNet)",
+    "estrategia": "transfer learning con feature extractor congelado (requires_grad=False en todas las capas salvo la nueva capa de salida)",
+    "capa_salida": "nn.Linear(512, 2) reemplazando model.fc",
+    "formato_guardado": "state_dict (torch.save(model.state_dict(), 'model.pt')); requiere reconstruir la arquitectura antes de cargar los pesos"
+  },
+  "clases": ["healthy", "late_blight"],
+  "orden_clases_nota": "Debe coincidir con el orden alfabético que usa torchvision.datasets.ImageFolder (healthy=0, late_blight=1); ver config/clases.txt",
+  "hiperparametros_entrenamiento": {
+    "n_epochs": 10,
+    "batch_size": 32,
+    "learning_rate_inicial": 0.000001,
+    "momentum": 0.9,
+    "optimizador": "SGD",
+    "funcion_perdida": "CrossEntropyLoss",
+    "scheduler": "CyclicLR (triangular2, base_lr=0.001, max_lr=0.01, step_size_up=5)"
+  },
+  "preprocesamiento_requerido": {
+    "resize": [224, 224],
+    "conversion_color": "RGB (PIL Image.open().convert('RGB'))",
+    "to_tensor": true,
+    "normalize_mean": [0.485, 0.456, 0.406],
+    "normalize_std": [0.229, 0.224, 0.225],
+    "nota": "Debe ser EXACTAMENTE igual al usado en el entrenamiento (Bloque 3 / Image classification with CNN modelo vision.ipynb). No usar cv2 (BGR) sin convertir a RGB."
+  },
+  "metricas": {
+    "fuente": "models/training_metrics_tizon_papa.csv",
+    "mejor_val_accuracy": 0.9915254237288136,
+    "mejor_val_accuracy_pct": "99.15%",
+    "val_accuracy_ultima_epoca": 0.9830508474576272,
+    "train_loss_ultima_epoca": 0.03509339471705831,
+    "nota": "model.pt guarda los pesos de la época con mejor val_accuracy (best_model_wts), no necesariamente los de la última época."
+  },
+  "dataset": {
+    "nombre": "potato_late_blight_dataset_validated",
+    "fuente_ficha_tecnica": "potato_late_blight_dataset_validated/FICHA_TECNICA.md",
+    "clases": ["healthy", "late_blight"],
+    "imagenes_totales": 586,
+    "particiones": {"train": 410, "val": 118, "test": 58},
+    "balance": "50/50 en cada partición"
+  },
+  "validacion_independiente": "Según REPORTE-CLASIFICACION-TIZON-PAPA.md, el modelo clasificó correctamente el 100% de un conjunto de imágenes de prueba independientes adicionales."
+}

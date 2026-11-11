@@ -1,0 +1,4 @@
+validated_split,healthy,late_blight
+train,205,205
+val,59,59
+test,29,29
