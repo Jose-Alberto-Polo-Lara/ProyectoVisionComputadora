@@ -169,3 +169,95 @@ python ejecutar_pipeline_completo.py --epocas 2 --umbral 0.80
   el entrenamiento.
 - `models/model.pt` corresponde a los pesos de la época con mejor `val_accuracy`
   (99.15%), no necesariamente la última época entrenada (ver `model_info.json`).
+
+## 7. Despliegue en Docker (API REST con Flask)
+
+
+Además del CLI (`src/pipeline_inferencia.py`), el modelo se puede exponer como
+un **API REST** (`src/api.py`, Flask + gunicorn) empaquetada en Docker, para
+que otros sistemas consuman las predicciones por HTTP sin instalar PyTorch
+localmente.
+
+
+Archivos relevantes: `Dockerfile`, `docker-compose.yml`, `.dockerignore`.
+
+
+### 7.1 Construir y levantar el contenedor
+
+
+Con `docker compose` (recomendado, ya incluye volúmenes y healthcheck):
+
+
+```bash
+cd proyectoVisionComputadora
+docker compose up --build -d
+```
+
+
+Equivalente con comandos `docker` planos (sin compose):
+
+
+```bash
+cd proyectoVisionComputadora
+docker build -t tizon-papa-api:latest .
+docker run -d --name tizon-papa-api \
+ -p 8000:8000 \
+ -v "$(pwd)/models:/app/models:ro" \
+ -v "$(pwd)/config:/app/config:ro" \
+ -v "$(pwd)/logs:/app/logs" \
+ -v "$(pwd)/outputs:/app/outputs" \
+ tizon-papa-api:latest
+```
+
+
+### 7.2 Verificar que el servicio está arriba
+
+
+```bash
+docker compose ps
+docker compose logs -f
+curl http://localhost:8000/health
+```
+
+
+### 7.3 Consumir el API
+
+
+Clasificar una sola imagen:
+```bash
+curl -X POST http://localhost:8000/predict \
+ -F "archivo=@ejemplos/test.jpg"
+```
+
+
+Clasificar un lote de imágenes en un solo forward-pass:
+```bash
+curl -X POST http://localhost:8000/predict/batch \
+ -F "archivos=@ejemplos/test.jpg" \
+ -F "archivos=@ejemplos/test1.jpg"
+```
+
+
+### 7.4 Detener y limpiar
+
+
+```bash
+docker compose down            # detiene y elimina el contenedor (conserva la imagen)
+docker compose down --rmi all  # además elimina la imagen construida
+```
+
+
+### 7.5 Pruebas del API sin Docker
+
+
+Las pruebas automatizadas (`pruebas/probar_api.py`) usan el test client de
+Flask, por lo que validan los endpoints en memoria sin necesidad de Docker ni
+de un servidor gunicorn corriendo (útil para equipos donde Docker no está
+disponible):
+
+
+```bash
+pip install -r requirements.txt
+pytest pruebas/probar_api.py -v
+```
+

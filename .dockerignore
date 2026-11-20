@@ -1,0 +1,27 @@
+# No copiar datasets pesados ni artefactos regenerables a la imagen Docker
+data/
+dataset/
+ejemplos/
+outputs/*
+logs/*
+!outputs/.gitkeep
+!logs/.gitkeep
+
+# Entornos virtuales y cachés
+.venv/
+venv/
+env/
+__pycache__/
+**/__pycache__/
+*.pyc
+*.egg-info/
+
+# Notebooks y documentación (no se necesitan en producción)
+*.ipynb
+*.md
+.ipynb_checkpoints/
+
+# Control de versiones y sistema
+.git/
+.gitignore
+.DS_Store

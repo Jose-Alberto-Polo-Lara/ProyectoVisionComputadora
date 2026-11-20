@@ -1,0 +1,22 @@
+services:
+ vision-api:
+   build:
+     context: .
+     dockerfile: Dockerfile
+   image: tizon-papa-api:latest
+   container_name: tizon-papa-api
+   ports:
+    - "8000:8000"
+   volumes:
+     # Permite actualizar el modelo sin reconstruir la imagen
+    - ./models:/app/models:ro
+    - ./config:/app/config:ro
+    - ./logs:/app/logs
+    - ./outputs:/app/outputs
+   restart: unless-stopped
+   healthcheck:
+     test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+     interval: 30s
+     timeout: 5s
+     retries: 3
+     start_period: 20s

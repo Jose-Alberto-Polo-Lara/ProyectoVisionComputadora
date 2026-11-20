@@ -9,3 +9,6 @@ Pillow==12.1.1
 numpy==2.4.2
 pandas==3.0.1
 tqdm==4.70.1
+Flask==3.1.0
+gunicorn==23.0.0
+pytest==8.4.1
